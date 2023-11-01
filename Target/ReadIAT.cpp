@@ -82,8 +82,6 @@ void ReadIAT(char* FilePtr, HWND hListProcess) {
 
 	while (Import->Name != NULL)
 	{
-		//printf("===================================================\n");
-		//printf("DLL Name is : %s\n", Import->Name + FilePtr);
 		int Count = 0;
 		int Func = 0;
 
@@ -91,23 +89,18 @@ void ReadIAT(char* FilePtr, HWND hListProcess) {
 		memset(DLLName, 0, MAX_PATH);
 		mbstowcs(DLLName, Import->Name + FilePtr, strlen(Import->Name + FilePtr));
 
-
-		//MessageBox(0, DLLName, 0, 0);
-
 		while (true)
 		{
 
 			Func = *(int*)(Import->OriginalFirstThunk + Count * 4 + FilePtr);
 			if (Func == NULL)
 			{
-				//printf("End Of Dll\n");
 				break;
 			}
 
 			vitem.pszText = DLLName;
 			vitem.iItem = LineNumber;
 			vitem.iSubItem = 0;
-			//ListView_InsertItem(hListProcess, &vitem);
 			SendMessage(hListProcess, LVM_INSERTITEM, 0, (LPARAM)&vitem);
 
 			TCHAR Index[256];

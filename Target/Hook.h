@@ -1,4 +1,4 @@
 #pragma once
 #include"framework.h"
 
-int LoadDLL(WCHAR* ProcName);
+int LoadDLL(WCHAR* ProcName, WCHAR* DllName);

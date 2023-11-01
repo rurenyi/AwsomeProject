@@ -11,13 +11,13 @@ HWND hdlg;
 HWND Dlg;
 HWND hProcList;
 WCHAR ProcName[MAX_PATH] = TEXT("not");
+WCHAR DllName[MAX_PATH] = TEXT("not");
 
 //CALLBACK
 BOOL CALLBACK MainDlgProc(HWND hdlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     OPENFILENAME stOpenFile;
     BOOL bret = FALSE;
     NMHDR* pNMHDR = (NMHDR*)lParam;
-    /*WCHAR ProcName[MAX_PATH] = TEXT("not");*/
 
     switch (uMsg)
     {
@@ -46,15 +46,24 @@ BOOL CALLBACK MainDlgProc(HWND hdlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
                 int result = OpenTargetFile((OPENFILENAME*)&stOpenFile, Dlg);
                 break;
             }
+            case IDC_BUTTON_DLL:
+            {
+                int result = OpenDllFile((OPENFILENAME*)&stOpenFile, Dlg, DllName);
+                break;
+            }
+
             case IDC_BUTTON_Hook:
             {
-                // nothing is going to happen.....
                 char* SharedMemory = StartMemoryShare();
                 if (wcscmp(ProcName, TEXT("not"))==0) {
                     MessageBox(0, TEXT("Please select target progress!"), 0, 0);
                     break;
                 }
-                LoadDLL(ProcName);
+                if (wcscmp(DllName, TEXT("not")) == 0) {
+                    MessageBox(0, TEXT("Please select dll!"), 0, 0);
+                    break;
+                }
+                LoadDLL(ProcName,DllName);
                 return true;
             }
 

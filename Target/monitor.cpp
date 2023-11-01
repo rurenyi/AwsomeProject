@@ -12,7 +12,6 @@ char* StartMemoryShare() {
 	hMapObject = CreateFileMapping((HANDLE)0xFFFFFFFFFFFFFFFF, NULL, PAGE_READWRITE, 0, 0x10000, TEXT("shared"));
 	if (!hMapObject)
 	{
-		//int error = GetLastError();
 		MessageBox(NULL, TEXT("memory sharing failed"), TEXT("Error"), MB_OK);
 		return FALSE;
 	}
@@ -20,7 +19,6 @@ char* StartMemoryShare() {
 	hMapView = MapViewOfFile(hMapObject, FILE_MAP_WRITE, 0, 0, 0);
 	if (!hMapView)
 	{
-		//int error = GetLastError();
 		MessageBox(NULL, TEXT("memory mapping failed"), TEXT("Error"), MB_OK);
 		return FALSE;
 	}
@@ -40,12 +38,10 @@ HWND InitProcessList(HWND hwnd) {
 	lv2.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
 	lv2.pszText = TEXT("Process Name");
 	lv2.cx = 150;
-	lv2.iSubItem = 0;
-	//ListView_InsertColumn(hListProcess, 0, &lv);	
+	lv2.iSubItem = 0;	
 	SendMessage(hProcessListProcess, LVM_INSERTCOLUMN, 0, (LPARAM)&lv2);
 	
 	return hProcessListProcess;
-	//EnumProcess(hListProcess);
 }
 
 int RefreshProcList(HWND hProcList) {
@@ -79,7 +75,6 @@ int RefreshProcList(HWND hProcList) {
 
 void GetSelect(HWND hProcList, WPARAM wPara, LPARAM lPara , WCHAR* ProcName) {
 
-	//WCHAR ProcName[MAX_PATH] = {0};
 	DWORD RowID;
 	LV_ITEM lv;
 	memset(&lv, 0, sizeof(LV_ITEM));
@@ -94,5 +89,4 @@ void GetSelect(HWND hProcList, WPARAM wPara, LPARAM lPara , WCHAR* ProcName) {
 	lv.pszText = ProcName;
 	lv.cchTextMax = MAX_PATH;
 	SendMessage(hProcList, LVM_GETITEMTEXT, RowID, (DWORD64)&lv);
-	//MessageBox(0, ProcName, TEXT("Process Name"), MB_OK);
 }
